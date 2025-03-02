@@ -1,7 +1,7 @@
 services:
   postgres:
-    image: postgres:15
-    container_name: helmi55/issatsoplusplus_core_postgres:latest 
+    image: helmi55/issatsoplusplus_core_postgres:latest
+    container_name: issatsoplusplus_core_postgres
     restart: always
     environment:
       POSTGRES_USER: root
@@ -15,8 +15,8 @@ services:
       - app_network
 
   rabbitmq:
-    image: rabbitmq:3-management
-    container_name: helmi55/issatsoplusplus_core_rabbitmq:latest
+    image: helmi55/issatsoplusplus_core_rabbitmq:latest
+    container_name: issatsoplusplus_core_rabbitmq
     restart: always
     ports:
       - "5672:5672"
@@ -32,5 +32,7 @@ services:
 networks:
   app_network:
 
+
 volumes:
   postgres_data:
+  rabbitmq_data:
