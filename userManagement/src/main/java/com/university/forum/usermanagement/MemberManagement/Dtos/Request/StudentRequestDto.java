@@ -37,16 +37,9 @@ public class StudentRequestDto {
     @Pattern(regexp = "\\d{8}", message = "CIN must contain only digits")
     private String cin;
 
-    @Past
-    private LocalDate dob;
+    private Boolean sex;
 
-    @NotBlank
-    private String studentNumber;
-
-    @Min(value = 1, message = "Class group ID must be greater than 0")
-    private Integer classGroupId;
-
-    public StudentRequestDto(String firstName, String lastName, String addressEmail, String phoneNumber, String address, String password, String confirmPassword, String linkedInProfileUrl, String cin, LocalDate dob, String studentNumber, Integer classGroupId) {
+    public StudentRequestDto(String firstName, String lastName, String addressEmail, String phoneNumber, String address, String password, String confirmPassword, String linkedInProfileUrl, String cin, Boolean sex, LocalDate dob, String studentNumber, Integer classGroupId) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.addressEmail = addressEmail;
@@ -56,9 +49,28 @@ public class StudentRequestDto {
         this.confirmPassword = confirmPassword;
         this.linkedInProfileUrl = linkedInProfileUrl;
         this.cin = cin;
+        this.sex = sex;
         this.dob = dob;
         this.studentNumber = studentNumber;
         this.classGroupId = classGroupId;
+    }
+
+    @Past
+    private LocalDate dob;
+
+    @NotBlank
+    private String studentNumber;
+
+    @Min(value = 1, message = "Class group ID must be greater than 0")
+    private Integer classGroupId;
+
+
+    public Boolean getSex() {
+        return sex;
+    }
+
+    public void setSex(Boolean sex) {
+        this.sex = sex;
     }
 
     public StudentRequestDto() {
