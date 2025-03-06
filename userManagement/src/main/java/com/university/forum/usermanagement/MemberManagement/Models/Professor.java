@@ -11,14 +11,13 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 
 @Entity
-@NoArgsConstructor
-@AllArgsConstructor
-@Setter
-@Getter
+
 public class Professor extends Personnel {
 
 
@@ -28,6 +27,20 @@ public class Professor extends Personnel {
             joinColumns = @JoinColumn(name = "professor_id"),
             inverseJoinColumns = @JoinColumn(name = "class_group_id")
     )
-    private List<ClassGroup> classGroups;
+    private Set<ClassGroup> classGroups=new HashSet<>();
 
+    public Set<ClassGroup> getClassGroups() {
+        return classGroups;
+    }
+
+    public void setClassGroups(Set<ClassGroup> classGroups) {
+        this.classGroups = classGroups;
+    }
+
+    public Professor() {
+    }
+
+    public Professor(Set<ClassGroup> classGroups) {
+        this.classGroups = classGroups;
+    }
 }
