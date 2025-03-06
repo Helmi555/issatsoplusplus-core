@@ -1,14 +1,14 @@
 package com.university.forum.usermanagement.MemberManagement.Dtos.Request;
 
 
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.Size;
-import jakarta.validation.constraints.Pattern;
-import jakarta.validation.constraints.Past;
-import jakarta.validation.constraints.Min;
+import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.*;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 public class StudentRequestDto {
     @NotBlank(message = "First name must not be blank")
@@ -19,9 +19,12 @@ public class StudentRequestDto {
 
     @NotBlank(message = "Email address must not be blank")
     @Email(message = "Email should be valid")
+    @Pattern(regexp = "^[\\w-\\.]+@[\\w-]+\\.[a-zA-Z]{2,6}$", message = "Invalid email format")
+    @Schema(description = "Email address of the student", example = "student@example.com")
     private String addressEmail;
 
     @Size(min = 8, max = 8)
+    @Pattern(regexp = "\\d{8}",message ="Phone number must be exactly 8 digits" )
     private String phoneNumber;
 
     private String address;
@@ -32,6 +35,12 @@ public class StudentRequestDto {
     private String confirmPassword;
     private String linkedInProfileUrl;
 
+    private String profileImageUrl;
+
+    @NotBlank
+    @Min(value = 8)
+    @Pattern(regexp = "\\d{8}",message ="Student number must be exactly 8 digits" )
+    private String studentNumber;
     @NotBlank
     @Size(min = 8, max = 8, message = "CIN must be exactly 8 digits")
     @Pattern(regexp = "\\d{8}", message = "CIN must contain only digits")
@@ -39,7 +48,18 @@ public class StudentRequestDto {
 
     private Boolean sex;
 
-    public StudentRequestDto(String firstName, String lastName, String addressEmail, String phoneNumber, String address, String password, String confirmPassword, String linkedInProfileUrl, String cin, Boolean sex, LocalDate dob, String studentNumber, Integer classGroupId) {
+    @NotNull
+    private Set<Integer> rolesIds=new HashSet<>();
+
+    @Past
+    private LocalDate dob;
+
+
+    @Min(value = 1, message = "Class group ID must be greater than 0")
+    private Integer classGroupId;
+
+
+    public StudentRequestDto(String firstName, String lastName, String addressEmail, String phoneNumber, String address, String password, String confirmPassword, String linkedInProfileUrl, String cin, Boolean sex, Set<Integer> rolesIds, LocalDate dob, String studentNumber, Integer classGroupId,String profileImageUrl) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.addressEmail = addressEmail;
@@ -50,19 +70,20 @@ public class StudentRequestDto {
         this.linkedInProfileUrl = linkedInProfileUrl;
         this.cin = cin;
         this.sex = sex;
+        this.rolesIds = rolesIds;
         this.dob = dob;
         this.studentNumber = studentNumber;
         this.classGroupId = classGroupId;
+        this.profileImageUrl = profileImageUrl;
     }
 
-    @Past
-    private LocalDate dob;
+    public String getProfileImageUrl() {
+        return profileImageUrl;
+    }
 
-    @NotBlank
-    private String studentNumber;
-
-    @Min(value = 1, message = "Class group ID must be greater than 0")
-    private Integer classGroupId;
+    public void setProfileImageUrl(String profileImageUrl) {
+        this.profileImageUrl = profileImageUrl;
+    }
 
 
     public Boolean getSex() {
@@ -170,5 +191,13 @@ public class StudentRequestDto {
 
     public void setClassGroupId(@Min(value = 1, message = "Class group ID must be greater than 0") Integer classGroupId) {
         this.classGroupId = classGroupId;
+    }
+
+    public @NotNull Set<Integer> getRolesIds() {
+        return rolesIds;
+    }
+
+    public void setRolesIds(@NotNull Set<Integer> rolesIds) {
+        this.rolesIds = rolesIds;
     }
 }

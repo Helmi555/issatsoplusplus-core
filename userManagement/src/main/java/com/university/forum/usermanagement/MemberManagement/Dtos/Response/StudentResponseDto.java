@@ -12,8 +12,44 @@ public class StudentResponseDto {
     private String lastName;
     private String addressEmail;
 
+    private String phoneNumber;
+    private String address;
+    private String linkedInProfileUrl;
+    private String profileImageUrl;
+    private String cin;
+    private LocalDate dob;
+    private String studentNumber;
+    private Integer classGroupId;
+    private Boolean sex;
+
+
+
     public UUID getId() {
         return Id;
+    }
+
+    public StudentResponseDto(UUID id, String firstName, String lastName, String addressEmail, String phoneNumber, String address, String linkedInProfileUrl, String profileImageUrl, String cin, LocalDate dob, String studentNumber, Integer classGroupId, Boolean sex) {
+        Id = id;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.addressEmail = addressEmail;
+        this.phoneNumber = phoneNumber;
+        this.address = address;
+        this.linkedInProfileUrl = linkedInProfileUrl;
+        this.profileImageUrl = profileImageUrl;
+        this.cin = cin;
+        this.dob = dob;
+        this.studentNumber = studentNumber;
+        this.classGroupId = classGroupId;
+        this.sex = sex;
+    }
+
+    public String getProfileImageUrl() {
+        return profileImageUrl;
+    }
+
+    public void setProfileImageUrl(String profileImageUrl) {
+        this.profileImageUrl = profileImageUrl;
     }
 
     public void setId(UUID id) {
@@ -111,29 +147,6 @@ public class StudentResponseDto {
     public StudentResponseDto() {
     }
 
-    public StudentResponseDto(UUID id, String firstName, String lastName, String addressEmail, String phoneNumber, String address, String linkedInProfileUrl, String cin, LocalDate dob, String studentNumber, Integer classGroupId, Boolean sex) {
-        Id = id;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.addressEmail = addressEmail;
-        this.phoneNumber = phoneNumber;
-        this.address = address;
-        this.linkedInProfileUrl = linkedInProfileUrl;
-        this.cin = cin;
-        this.dob = dob;
-        this.studentNumber = studentNumber;
-        this.classGroupId = classGroupId;
-        this.sex = sex;
-    }
-
-    private String phoneNumber;
-    private String address;
-    private String linkedInProfileUrl;
-    private String cin;
-    private LocalDate dob;
-    private String studentNumber;
-    private Integer classGroupId;
-    private Boolean sex;
 
 
 }

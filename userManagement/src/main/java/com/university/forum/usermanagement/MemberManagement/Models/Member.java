@@ -21,17 +21,20 @@ public class Member {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
+    @Column(nullable = false)
     private String firstName;
+    @Column(nullable = false)
     private String lastName;
-    @Column(unique = true)
+    @Column(unique = true,nullable = false)
     private String addressEmail;
     @Size(min = 8, max = 8)
     private String phoneNumber;
     private String address;
+    @Column(nullable = false)
     private String password;
     private String linkedInProfileUrl;
     private String profileImageUrl;
-    @Column(unique = true)
+    @Column(unique = true,nullable = false)
     @Size(min = 8, max = 8)
     private String cin;
     private Boolean sex;
@@ -48,6 +51,7 @@ public class Member {
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id")
     )
+    @Column(nullable = false)
     private Set<Role> roles=new HashSet<>();
 
 
