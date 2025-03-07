@@ -11,6 +11,7 @@ import com.university.forum.usermanagement.MemberManagement.Models.Student;
 import com.university.forum.usermanagement.MemberManagement.Repositories.RoleRepository;
 import com.university.forum.usermanagement.MemberManagement.Repositories.StudentRepository;
 import com.university.forum.usermanagement.MemberManagement.Services.StudentService;
+import com.university.forum.usermanagement.Shared.Services.MessageProducer;
 import com.university.forum.usermanagement.Shared.Services.PasswordService;
 import org.springframework.stereotype.Service;
 
@@ -24,13 +25,16 @@ public class StudentServiceImpl implements StudentService {
     private final RoleRepository roleRepository;
     private final ClassGroupRepository classGroupRepository;
     private final PasswordService passwordService;
+    private final MessageProducer messageProducer;
 
 
-    public StudentServiceImpl(StudentRepository studentRepository, RoleRepository roleRepository, ClassGroupRepository classGroupRepository, PasswordService passwordService) {
+
+    public StudentServiceImpl(StudentRepository studentRepository, RoleRepository roleRepository, ClassGroupRepository classGroupRepository, PasswordService passwordService, MessageProducer messageProducer) {
         this.studentRepository = studentRepository;
         this.roleRepository = roleRepository;
         this.classGroupRepository = classGroupRepository;
         this.passwordService = passwordService;
+        this.messageProducer = messageProducer;
     }
 
     @Override
@@ -58,8 +62,9 @@ public class StudentServiceImpl implements StudentService {
 
         classGroup.getStudents().add(student);
 
-        studentRepository.save(student);
+        student=studentRepository.save(student);
 
+        //messageProducer.sendMemberCreatedMessage(student,"student");
         return convertToStudentResponseDto(student);
     }
 

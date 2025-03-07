@@ -1,18 +1,20 @@
-package com.university.forum.usermanagement.config;
+package com.university.forum.usermanagement.Shared.Config;
 
 import org.springframework.amqp.core.Binding;
 import org.springframework.amqp.core.BindingBuilder;
 import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.core.TopicExchange;
+import org.springframework.amqp.rabbit.annotation.EnableRabbit;
 import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
-import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.rabbit.listener.SimpleMessageListenerContainer;
 import org.springframework.amqp.rabbit.listener.adapter.MessageListenerAdapter;
 import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 
 @Configuration
+@EnableRabbit
 public class RabbitMQConfig {
 
     @Bean
@@ -51,26 +53,16 @@ public class RabbitMQConfig {
 
     @Bean
     public TopicExchange memberManagementExchange() {
-        return new TopicExchange("member-management-exchange"); // Correct name
+        return new TopicExchange("member-management-exchange");
     }
 
     @Bean
     public Queue forumServiceQueue() {
-        return new Queue("forum-service-queue");
+        return new Queue("forum-service-queue", true);
     }
 
     @Bean
     public Binding binding(Queue forumServiceQueue, TopicExchange memberManagementExchange) {
         return BindingBuilder.bind(forumServiceQueue).to(memberManagementExchange).with("member.professor.created");
     }
-    @Bean
-    public Queue studentQueue() {
-        return new Queue("student-queue", true);
-    }
-
-    @Bean
-    public Binding bindingForStudentQueue(Queue studentQueue, TopicExchange memberManagementExchange) {
-        return BindingBuilder.bind(studentQueue).to(memberManagementExchange).with("member.student.created");
-    }
-
 }

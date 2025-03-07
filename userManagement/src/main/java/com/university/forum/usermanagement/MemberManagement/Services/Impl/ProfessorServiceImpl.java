@@ -12,6 +12,7 @@ import com.university.forum.usermanagement.MemberManagement.Models.Student;
 import com.university.forum.usermanagement.MemberManagement.Repositories.ProfessorRepository;
 import com.university.forum.usermanagement.MemberManagement.Repositories.RoleRepository;
 import com.university.forum.usermanagement.MemberManagement.Services.ProfessorService;
+import com.university.forum.usermanagement.Shared.Services.MessageProducer;
 import com.university.forum.usermanagement.Shared.Services.PasswordService;
 import org.springframework.stereotype.Service;
 
@@ -24,12 +25,14 @@ public class ProfessorServiceImpl implements ProfessorService {
     private final RoleRepository roleRepository;
     private final ClassGroupRepository classGroupRepository;
     private final PasswordService passwordService;
+    private final MessageProducer messageProducer;
 
-    public ProfessorServiceImpl(ProfessorRepository professorRepository, RoleRepository roleRepository, ClassGroupRepository classGroupRepository, PasswordService passwordService) {
+    public ProfessorServiceImpl(ProfessorRepository professorRepository, RoleRepository roleRepository, ClassGroupRepository classGroupRepository, PasswordService passwordService, MessageProducer messageProducer) {
         this.professorRepository = professorRepository;
         this.roleRepository = roleRepository;
         this.classGroupRepository = classGroupRepository;
         this.passwordService = passwordService;
+        this.messageProducer = messageProducer;
     }
 
     @Override
@@ -53,6 +56,9 @@ public class ProfessorServiceImpl implements ProfessorService {
        professor.setPassword(passwordService.hashPassword(professorRequestDto.getPassword()));
 
        professor=professorRepository.save(professor);
+
+       messageProducer.sendMemberCreatedMessage(professor,"professor");
+
 
        return convertToProfessorResponseDto(professor);
     }
